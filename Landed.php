@@ -60,4 +60,4 @@ $wgResourceModules['skins.landed'] = array(
 	'remoteSkinPath' => 'Landed',
 	'localBasePath' => __DIR__,
 	'position' => 'top'
-);p
+);
