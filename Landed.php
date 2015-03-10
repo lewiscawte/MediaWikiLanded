@@ -40,6 +40,7 @@ $wgValidSkinNames['landed'] = 'Landed';
 
 $wgAutoloadClasses['SkinLanded'] = __DIR__ . '/Landed.skin.php';
 $wgAutoloadClasses['LandedTemplate'] = __DIR__ . '/Landed.template.php';
+$wgAutoloadClasses['NestedMenuParser'] = __DIR__ . '/NestedMenuParser.php';
 $wgExtensionMessagesFiles['SkinLanded'] = __DIR__ . '/Landed.i18n.php';
 $wgResourceModules['skins.landed'] = array(
 	'styles' => array(
@@ -59,4 +60,4 @@ $wgResourceModules['skins.landed'] = array(
 	'remoteSkinPath' => 'Landed',
 	'localBasePath' => __DIR__,
 	'position' => 'top'
-);
+);p

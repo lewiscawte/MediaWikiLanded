@@ -28,26 +28,47 @@ class LandedTemplate extends BaseTemplate {
 			<h1 id="logo"><a href="index.html">Landed</a></h1>
 			<nav id="nav">
 				<ul>
-					<li><a href="index.html">Home</a></li>
-					<li>
-						<a href="">Layouts</a>
-						<ul>
-							<li><a href="left-sidebar.html">Left Sidebar</a></li>
-							<li><a href="right-sidebar.html">Right Sidebar</a></li>
-							<li><a href="no-sidebar.html">No Sidebar</a></li>
-							<li>
-								<a href="">Submenu</a>
-								<ul>
-									<li><a href="#">Option 1</a></li>
-									<li><a href="#">Option 2</a></li>
-									<li><a href="#">Option 3</a></li>
-									<li><a href="#">Option 4</a></li>
-								</ul>
+					<?php
+						$navigation = $this->doNavigation();
+
+						if ( is_array( $navigation ) && isset( $navigation[0] ) ) {
+						$counter = 0;
+						foreach ( $navigation[0]['children'] as $level0 ) {
+						$hasChildren = isset( $navigation[$level0]['children'] );
+						?>
+					<li class="page_item<?php echo ( $hasChildren ? ' page_item_has_children' : '' ) ?>">
+						<a class="nav<?php echo $counter ?>_link" href="<?php echo $navigation[$level0]['href'] ?>"><?php echo $navigation[$level0]['text'] ?></a>
+						<?php if ( $hasChildren ) { ?>
+						<ul class="children">
+						<?php
+							foreach ( $navigation[$level0]['children'] as $level1 ) {
+						?>
+							<li class="page_item">
+								<a href="<?php echo $navigation[$level1]['href'] ?>"><?php echo $navigation[$level1]['text'] ?></a>
+								<?php
+								if ( isset( $navigation[$level1]['children'] ) ) {
+									echo '<ul class="children">';
+									foreach ( $navigation[$level1]['children'] as $level2 ) {
+								?>
+									<li class="page_item">
+										<a href="<?php echo $navigation[$level2]['href'] ?>"><?php echo $navigation[$level2]['text'] ?></a>
+									</li>
+								<?php
+									}
+									echo '</ul>';
+									$counter++;
+								}
+								?>
 							</li>
-						</ul>
-					</li>
-					<li><a href="elements.html">Elements</a></li>
-					<li><a href="#" class="button special">Sign Up</a></li>
+							<?php
+							}
+							echo '</ul>';
+							$counter++;
+						} // hasChildren
+						echo '</li>';
+						} // top-level foreach
+						} // is_array( $navigation )
+						?>
 				</ul>
 			</nav>
 		</header>
@@ -56,8 +77,7 @@ class LandedTemplate extends BaseTemplate {
 		<div id="main" class="wrapper style1">
 			<div class="container">
 				<header class="major">
-					<h2><?php $this->html( 'title' ) ?></h2>
-					<p>Ipsum dolor feugiat aliquam tempus sed magna lorem consequat accumsan</p>
+					<h2>Elements</h2>
 				</header>
 
 				<!-- Text -->
@@ -88,5 +108,16 @@ class LandedTemplate extends BaseTemplate {
 		echo Html::closeElement( 'body' );
 		echo Html::closeElement( 'html' );
 		wfRestoreWarnings();
+	}
+
+	private function doNavigation() {
+		$nmp = new NestedMenuParser();
+		$nav = $nmp->parseMessage(
+			'sidebar',
+			array( 10, 10, 10, 10, 10, 10 ),
+			60 * 60 * 3
+		);
+
+		return $nav;
 	}
 }
