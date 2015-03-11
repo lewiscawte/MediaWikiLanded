@@ -46,7 +46,7 @@ $wgResourceModules['skins.landed'] = array(
 	'styles' => array(
 		'css/skel.css',
 		'css/style.css' => array( 'media' => 'screen' ),
-		'css/style-xlarge.css',
+		'css/style-xlarge.css' => array( 'media' => '(max-width: 1680px)' ),
 		'css/font-awesome.min.css',
 		'css/style-large.css' => array( 'media' => '(max-width: 1280px)' ),
 		'css/style-medium.css' => array( 'media' => '(max-width: 980px)' ),
