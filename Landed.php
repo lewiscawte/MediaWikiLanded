@@ -45,9 +45,13 @@ $wgExtensionMessagesFiles['SkinLanded'] = __DIR__ . '/Landed.i18n.php';
 $wgResourceModules['skins.landed'] = array(
 	'styles' => array(
 		'css/skel.css',
-		'css/style.css',
+		'css/style.css' => array( 'media' => 'screen' ),
 		'css/style-xlarge.css',
 		'css/font-awesome.min.css',
+		'css/style-large.css' => array( 'media' => '(max-width: 1280px)' ),
+		'css/style-medium.css' => array( 'media' => '(max-width: 980px)' ),
+		'css/style-small.css' => array( 'media' => '(max-width: 736px)' ),
+		'css/style-xsmall.css' => array( 'media' => '(max-width: 480px)' ),
 	),
 	'scripts' => array(
 		'js/jquery.scrolly.min.js',

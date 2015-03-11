@@ -28,5 +28,6 @@ class SkinLanded extends SkinTemplate {
 
 		# Add css
 		$out->addModuleStyles( 'skins.landed' );
+		$out->addModuleScripts( 'skins.landed' );
 	}
 }
