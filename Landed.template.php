@@ -25,7 +25,11 @@ class LandedTemplate extends BaseTemplate {
 
 		<!-- Header -->
 		<header id="header">
-			<h1 id="logo"><a href="index.html">Landed</a></h1>
+			<h1 id="logo">
+				<a href="<?php echo htmlspecialchars( $this->data['nav_urls']['mainpage']['href'] ) ?>">
+					<?php echo wfMessage( 'sitetitle' )->escaped() ?>
+				</a>
+			</h1>
 			<nav id="nav">
 				<ul>
 					<?php
