@@ -89,14 +89,16 @@ class LandedTemplate extends BaseTemplate {
 
 		<!-- Footer -->
 		<footer id="footer">
-			<ul class="icons">
-				<li><a href="#" class="icon alt fa-twitter"><span class="label">Twitter</span></a></li>
-				<li><a href="#" class="icon alt fa-facebook"><span class="label">Facebook</span></a></li>
-				<li><a href="#" class="icon alt fa-linkedin"><span class="label">LinkedIn</span></a></li>
-				<li><a href="#" class="icon alt fa-instagram"><span class="label">Instagram</span></a></li>
-				<li><a href="#" class="icon alt fa-github"><span class="label">GitHub</span></a></li>
-				<li><a href="#" class="icon alt fa-envelope"><span class="label">Email</span></a></li>
-			</ul>
+			<?php
+			$footerIcons = $this->doFooterSocialMedia();
+			if ( $footerIcons !== null && !empty( $footerIcons ) ) {
+				echo '<ul class="icons">';
+				foreach ( $footerIcons as $icon ) {
+					echo $icon;
+				}
+				echo '</ul>';
+			}
+			?>
 			<ul class="copyright">
 				<li>&copy; Untitled. All rights reserved.</li>
 				<li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
@@ -113,11 +115,32 @@ class LandedTemplate extends BaseTemplate {
 	private function doNavigation() {
 		$nmp = new NestedMenuParser();
 		$nav = $nmp->parseMessage(
-			'sidebar',
+			'landed-sidebar',
 			array( 10, 10, 10, 10, 10, 10 ),
 			60 * 60 * 3
 		);
 
 		return $nav;
+	}
+
+	private function doFooterSocialMedia() {
+		$out = array();
+
+		if( wfMessage( 'Landed-twitter' )->exists() ) {
+			$out[] = '<li><a href="//twitter.com/' . wfMessage( 'Landed-twitter' )->plain() . '" class="icon alt fa-twitter"><span class="label">Twitter</span></a></li>';
+		}
+		if( wfMessage( 'Landed-facebook' )->exists() ) {
+			$out[] = '<li><a href="//twitter.com/' . wfMessage( 'Landed-facebook' )->plain() . '" class="icon alt fa-facebook"><span class="label">Facebook</span></a></li>';
+		}
+		if( wfMessage( 'Landed-linkedin' )->exists() ) {
+			$out[] = '<li><a href="//linkedin.com/' . wfMessage( 'Landed-linkedin' )->plain() . '" class="icon alt fa-linkedin"><span class="label">LinkedIn</span></a></li>';
+		}
+		if( wfMessage( 'Landed-instagram' )->exists() ) {
+			$out[] = '<li><a href="//instagram.com/' . wfMessage( 'Landed-instagram' )->plain() . '" class="icon alt fa-instagram"><span class="label">Instagram</span></a></li>';
+		}
+		if( wfMessage( 'Landed-github' )->exists() ) {
+			$out[] = '<li><a href="//github.com/' . wfMessage( 'Landed-github' )->plain() . '" class="icon alt fa-github"><span class="label">GitHub</span></a></li>';
+		}
+		return $out;
 	}
 }
