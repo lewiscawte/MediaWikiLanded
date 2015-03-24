@@ -130,7 +130,7 @@ class LandedTemplate extends BaseTemplate {
 			$out[] = '<li><a href="//twitter.com/' . wfMessage( 'Landed-twitter' )->plain() . '" class="icon alt fa-twitter"><span class="label">Twitter</span></a></li>';
 		}
 		if( wfMessage( 'Landed-facebook' )->exists() ) {
-			$out[] = '<li><a href="//twitter.com/' . wfMessage( 'Landed-facebook' )->plain() . '" class="icon alt fa-facebook"><span class="label">Facebook</span></a></li>';
+			$out[] = '<li><a href="//facebook.com/' . wfMessage( 'Landed-facebook' )->plain() . '" class="icon alt fa-facebook"><span class="label">Facebook</span></a></li>';
 		}
 		if( wfMessage( 'Landed-linkedin' )->exists() ) {
 			$out[] = '<li><a href="//linkedin.com/' . wfMessage( 'Landed-linkedin' )->plain() . '" class="icon alt fa-linkedin"><span class="label">LinkedIn</span></a></li>';
