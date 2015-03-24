@@ -77,7 +77,7 @@ class LandedTemplate extends BaseTemplate {
 		<div id="main" class="wrapper style1">
 			<div class="container">
 				<header class="major">
-					<h2>Elements</h2>
+					<h2><?php $this->html( 'title' ) ?></h2>
 				</header>
 
 				<!-- Text -->
