@@ -104,8 +104,13 @@ class LandedTemplate extends BaseTemplate {
 			}
 			?>
 			<ul class="copyright">
-				<li>&copy; Untitled. All rights reserved.</li>
-				<li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+				<?php
+				foreach ( $this->getFooterLinks( 'flat' ) as $aLink ) {
+					if ( isset( $this->data[$aLink] ) && $this->data[$aLink] ) { ?>
+						<li id="<?php echo $aLink ?>"><?php $this->html( $aLink ) ?></li>
+				<?php }
+				}
+				?>
 			</ul>
 		</footer>
 
