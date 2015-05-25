@@ -76,7 +76,9 @@ class LandedTemplate extends BaseTemplate {
 				</ul>
 			</nav>
 		</header>
-
+		<?php
+		echo $this->doSections();
+		?>
 		<!-- Main -->
 		<div id="main" class="wrapper style1">
 			<div class="container">
@@ -151,5 +153,98 @@ class LandedTemplate extends BaseTemplate {
 			$out[] = '<li><a href="//github.com/' . wfMessage( 'Landed-github' )->plain() . '" class="icon alt fa-github"><span class="label">GitHub</span></a></li>';
 		}
 		return $out;
+	}
+
+	private function doSections() {
+		$title = $this->getSkin()->getTitle();
+		$output = null;
+
+		$myTitle = $title->newFromText( $title->getFullText() . '/header.json' );
+		if( $myTitle->exists() && $myTitle->hasContentModel( CONTENT_MODEL_JSON ) ) {
+			$output .= $this->addBanner( $myTitle );
+		}
+
+		$myTitle = $title->newFromText( $title->getFullText() . '/left.json' );
+		if( $myTitle->exists() && $myTitle->hasContentModel( CONTENT_MODEL_JSON ) ) {
+			$output .= $this->addSection( $myTitle, 'left' );
+		}
+
+		$myTitle = $title->newFromText( $title->getFullText() . '/right.json' );
+		if( $myTitle->exists() && $myTitle->hasContentModel( CONTENT_MODEL_JSON ) ) {
+			$output .= $this->addSection( $myTitle, 'right' );
+		}
+
+		$myTitle = $title->newFromText( $title->getFullText() . '/top.json' );
+		if( $myTitle->exists() && $myTitle->hasContentModel( CONTENT_MODEL_JSON ) ) {
+			$output .= $this->addSection( $myTitle, 'top' );
+		}
+
+		$myTitle = $title->newFromText( $title->getFullText() . '/bottom.json' );
+		if( $myTitle->exists() && $myTitle->hasContentModel( CONTENT_MODEL_JSON ) ) {
+			$output .= $this->addSection( $myTitle, 'bottom' );
+		}
+
+		return $output;
+	}
+
+	private function addSection( $title, $side, $effects ) {
+		if( !isset( $effects ) ) { $effects = 'fade'; }
+		$content = $this->getContent( $title );
+		$img = $this->doImages( $content['image'] );
+
+		$out = "<section class=\"spotlight {$side} {$effects}\">";
+		$out .= "<span class=\"image fit main\"><img src=\"{$img}\" alt=\"\" /></span>";
+		$out .= "<div class=\"content\"><div class=\"container\"><div class=\"row\">";
+		$out .= "<div class=\"4u 12u$(medium)\"><header>";
+		$out .= "<h2>{$content['title']}</h2>";
+		$out .= "<p></p>";
+		$out .= "</header></div><div class=\"4u 12u$(medium)\">";
+		$out .= "<p>{$content['text']}'</p>";
+		$out .= "</div></div></div></div></section>";
+
+		return $out;
+	}
+
+	/**
+	 * @param Title $title
+	 * @return string
+	 */
+	private function addBanner( $title ) {
+		$content = $this->getContent( $title );
+		$img = $this->doImages( $content['image'] );
+
+		$out = "<section id=\"banner\">";
+		$out .= "<div class=\"content\">";
+		$out .= "<header>";
+		$out .= "<h2>{$content['title']}</h2>";
+		$out .= "<p>{$content['text']}</p>";
+		$out .= "</header>";
+		if( isset( $img ) && !empty( $img ) ) {
+			$out .= "<span class=\"image\">{$img}</span>";
+		}
+		$out .= "</div>";
+		$out .= "<a href=\"#one\" class=\"goto-next scrolly\">Next</a>";
+		$out .= "</section>";
+
+		return $out;
+	}
+
+	private function doImages( $filename ) {
+		$file = wfFindFile( Title::newFromText( $filename, NS_FILE ) );
+		if( $file !== null && is_object( $file ) ) {
+			$fileURL = Linker::makeExternalImage( $file->getFullUrl() );
+
+			return $fileURL;
+		} else {
+			return null;
+		}
+	}
+
+	private function getContent( $pagetitle ) {
+		return json_decode(
+			WikiPage::factory( $pagetitle )
+				->getContent()->getNativeData(), true
+		);
+
 	}
 }
